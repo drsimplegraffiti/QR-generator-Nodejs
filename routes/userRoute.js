@@ -9,7 +9,7 @@ const QRCode = require("../model/qrCode");
 
 /**
  * @swagger
- * /:
+ * /healthcheck:
  *  get:
  *    summary: Home page
  *    requestBody:
@@ -23,7 +23,7 @@ const QRCode = require("../model/qrCode");
  *      200:
  *        description: Home page
  */
-router.get("/", (req, res) => {
+router.get("/healthcheck", (req, res) => {
   return res.status(200).json({
     msg: "Home page",
   });
