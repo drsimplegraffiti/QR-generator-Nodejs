@@ -80,6 +80,10 @@ router.get("/healthcheck", (req, res) => {
  */
 router.post("/register", async (req, res) => {
   try {
+    // const first_name = req?.body?.first_name;
+    // const last_name = req?.body?.last_name;
+    // const email = req?.body?.email;
+    // const password = req?.body?.password;
     const { first_name, last_name, email, password } = req.body;
 
     if (!(email && password && first_name && last_name)) {
@@ -167,7 +171,7 @@ router.post("/login", async (req, res) => {
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign(
-        { user_id: user._id, email },
+        { user_id: user?._id, email },
         process.env.TOKEN_KEY,
         {
           expiresIn: "2h",
@@ -181,8 +185,8 @@ router.post("/login", async (req, res) => {
       return res.status(200).json({ token });
     }
     return res.status(400).send("Invalid Credentials");
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error?.message);
     return res.status(500).json({
       msg: "Something went wrong",
     });
@@ -247,7 +251,7 @@ router.get("/user/:id", async (req, res) => {
     const user = await User.findById(id);
     return res.status(200).json(user);
   } catch (error) {
-    console.log(err);
+    console.log(error);
     return res.status(500).json({
       msg: "Something went wrong",
     });

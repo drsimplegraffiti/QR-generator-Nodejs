@@ -27,12 +27,12 @@ const port = process.env.PORT || API_PORT;
 const app = express();
 
 app.use(express.json());
-app.use("/api", useRouter);
 app.get("/", (req, res) => {
   return res.status(200).json({
     msg: "home",
   });
 });
+app.use("/api", useRouter);
 
 app.use(
   "/api-doc",
