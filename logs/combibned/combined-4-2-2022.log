@@ -1,0 +1,13 @@
+Level:[error] LogTime: [3/4/2022] Message:-[uncaughtException: Cannot create property 'Symbol(level)' on string 'Server running on port 4001'
+TypeError: Cannot create property 'Symbol(level)' on string 'Server running on port 4001'
+    at DerivedLogger.log (C:\Users\user\Desktop\qr-code-nodejs\node_modules\winston\lib\winston\logger.js:214:20)
+    at Server.<anonymous> (C:\Users\user\Desktop\qr-code-nodejs\app.js:66:10)
+    at Object.onceWrapper (node:events:509:28)
+    at Server.emit (node:events:390:28)
+    at emitListeningNT (node:net:1368:10)
+    at processTicksAndRejections (node:internal/process/task_queues:82:21)]
+Level:[info] LogTime: [3/4/2022] Message:-[Server running on port 4001]
+Level:[info] LogTime: [3/4/2022] Message:-[Server running on port 4001]
+Level:[info] LogTime: [3/4/2022] Message:-[Server running on port 4001]
+Level:[info] LogTime: [3/4/2022] Message:-[Server running on port 4001]
+Level:[info] LogTime: [3/4/2022] Message:-[Server running on port 4001]

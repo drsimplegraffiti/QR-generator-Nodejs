@@ -21,8 +21,11 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.4",
     "qrcode": "^1.5.0",
+    "svg-captcha": "^1.4.0",
     "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.3.0"
+    "swagger-ui-express": "^4.3.0",
+    "winston": "^3.6.0",
+    "winston-mongodb": "^5.0.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

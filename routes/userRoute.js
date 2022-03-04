@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const csrf = require("csurf");
+const logger = require("../utils/logger");
 const parseForm = express.urlencoded({ extended: false });
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -97,7 +98,7 @@ router.post("/register", async (req, res) => {
     if (oldUser) {
       return res.status(409).send("User Already Exist. Please Login");
     }
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(10); // you can use 'hasha' in place of bcrypt
     encryptedPassword = await bcrypt.hash(password, salt);
     const user = await User.create({
       first_name,
@@ -118,7 +119,7 @@ router.post("/register", async (req, res) => {
     // return new user
     res.status(201).json({ token });
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     return res.status(500).json("Server error");
   }
 });

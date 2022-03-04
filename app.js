@@ -3,8 +3,10 @@ var cookieParser = require("cookie-parser");
 require("./config/database").connect();
 const express = require("express");
 const csrf = require("csurf");
+const svgCaptcha = require("svg-captcha");
 const helmet = require("helmet");
 const useRouter = require("./routes/userRoute");
+const logger = require("./utils/logger");
 const path = require("path");
 
 const csrfProtection = csrf({ cookie: true });
@@ -37,12 +39,20 @@ app.use(helmet());
 app.use(cookieParser());
 
 app.get("/", csrfProtection, (req, res) => {
-  console.log("working");
   return res.status(200).json({
     msg: "home",
     csrfToken: req.csrfToken(),
   });
 });
+
+app.use("/captcha", (req, res) => {
+  var captcha = svgCaptcha.create();
+  // req.session.captcha = captcha.text;
+
+  res.type("svg");
+  res.status(200).send(captcha.data);
+});
+
 app.use("/api", useRouter);
 
 app.use(
@@ -53,5 +63,5 @@ app.use(
 
 // server listening
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  logger.log("info", `Server running on port ${port}`);
 });
