@@ -2,6 +2,7 @@ require("dotenv").config();
 var cookieParser = require("cookie-parser");
 require("./config/database").connect();
 const express = require("express");
+const platform = require("platform");
 const csrf = require("csurf");
 const svgCaptcha = require("svg-captcha");
 const helmet = require("helmet");
@@ -39,9 +40,11 @@ app.use(helmet());
 app.use(cookieParser());
 
 app.get("/", csrfProtection, (req, res) => {
+  const platformInfo = { platform };
   return res.status(200).json({
     msg: "home",
     csrfToken: req.csrfToken(),
+    platformInfo,
   });
 });
 
