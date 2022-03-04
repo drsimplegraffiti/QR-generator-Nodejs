@@ -1,9 +1,15 @@
 require("dotenv").config();
+var cookieParser = require("cookie-parser");
 require("./config/database").connect();
 const express = require("express");
+const csrf = require("csurf");
 const helmet = require("helmet");
 const useRouter = require("./routes/userRoute");
 const path = require("path");
+
+const csrfProtection = csrf({ cookie: true });
+
+const app = express();
 
 //swagger
 const swaggerUI = require("swagger-ui-express");
@@ -25,14 +31,16 @@ const swaggerSpec = {
 };
 const { API_PORT } = process.env;
 const port = process.env.PORT || API_PORT;
-const app = express();
 
 app.use(express.json());
 app.use(helmet());
-app.get("/", (req, res) => {
+app.use(cookieParser());
+
+app.get("/", csrfProtection, (req, res) => {
   console.log("working");
   return res.status(200).json({
     msg: "home",
+    csrfToken: req.csrfToken(),
   });
 });
 app.use("/api", useRouter);

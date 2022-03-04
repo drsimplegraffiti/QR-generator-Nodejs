@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const csrf = require("csurf");
+const parseForm = express.urlencoded({ extended: false });
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const QR = require("qrcode");
 const User = require("../model/user");
 const ConnectedDevice = require("../model/connectedDevice");
+const csrfProtection = csrf({ cookie: true });
+
 const QRCode = require("../model/qrCode");
 
 /**
@@ -23,7 +27,7 @@ const QRCode = require("../model/qrCode");
  *      200:
  *        description: Home page
  */
-router.get("/healthcheck", (req, res) => {
+router.get("/healthcheck", csrfProtection, (req, res) => {
   return res.status(200).json({
     msg: "Home page",
   });
@@ -93,8 +97,8 @@ router.post("/register", async (req, res) => {
     if (oldUser) {
       return res.status(409).send("User Already Exist. Please Login");
     }
-
-    encryptedPassword = await bcrypt.hash(password, 10);
+    const salt = await bcrypt.genSalt(10);
+    encryptedPassword = await bcrypt.hash(password, salt);
     const user = await User.create({
       first_name,
       last_name,
