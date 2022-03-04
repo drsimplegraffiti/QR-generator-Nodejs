@@ -1,6 +1,7 @@
 require("dotenv").config();
 require("./config/database").connect();
 const express = require("express");
+const helmet = require("helmet");
 const useRouter = require("./routes/userRoute");
 const path = require("path");
 
@@ -27,7 +28,9 @@ const port = process.env.PORT || API_PORT;
 const app = express();
 
 app.use(express.json());
+app.use(helmet());
 app.get("/", (req, res) => {
+  console.log("working");
   return res.status(200).json({
     msg: "home",
   });
